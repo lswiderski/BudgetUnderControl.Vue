@@ -5,7 +5,8 @@ import axios from 'axios';
 
 export const reportsService = {
     getMovingSumData,
-    getDashboardData
+    getDashboardData,
+    getExpensesChartData
 };
 
 function getMovingSumData(filters) {
@@ -19,6 +20,15 @@ function getMovingSumData(filters) {
 
 function getDashboardData() {
     return axios.get(`/reports/dashboard`, { headers: authHeader() })
+    .then(handleResponse)
+    .catch(catchError);
+}
+
+function getExpensesChartData(filters) {
+    const Qs = require('qs');
+    return axios.get(`/reports/expenseschart`, { params:filters, headers: authHeader(),paramsSerializer: function(params) {
+        return Qs.stringify(params, {arrayFormat: 'repeat'})
+    }})
     .then(handleResponse)
     .catch(catchError);
 }

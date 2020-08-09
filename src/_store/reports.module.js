@@ -5,6 +5,7 @@ export const reports = {
     state: {
         movingSumDataSource: {},
         dashboardData: {},
+        expensesChartData: {},
     },
     actions: {
         getMovingSumData({ commit }, filters) {
@@ -22,6 +23,15 @@ export const reports = {
                 .then(
                     data => commit('getDashboardDataSuccess', data),
                     error => commit('getDashboardDataFailure', error)
+                );
+        },
+        getExpensesChartData({ commit }, filters) {
+            commit('getExpensesChartRequest');
+
+            reportsService.getExpensesChartData(filters)
+                .then(
+                    data => commit('getExpensesChartSuccess', data),
+                    error => commit('getExpensesChartFailure', error)
                 );
         }
     },
@@ -44,6 +54,16 @@ export const reports = {
         },
         getDashboardDataFailure(state, error) {
             state.dashboardData = { error };
+        },
+
+        getExpensesChartRequest(state) {
+            state.expensesChartData = { loading: true };
+        },
+        getExpensesChartSuccess(state, data) {
+            state.expensesChartData = { items: data};
+        },
+        getExpensesChartFailure(state, error) {
+            state.expensesChartData = { error };
         }
     }
 }

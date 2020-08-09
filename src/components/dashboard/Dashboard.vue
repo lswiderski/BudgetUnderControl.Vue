@@ -27,6 +27,12 @@
           <CurrentCurrencies />
         </v-card>
       </v-col>
+            <v-col md="4">
+        <v-card class="pa-2" outlined tile>
+          <v-card-title>Last Days Expenses</v-card-title>
+          <CategoriesColumnChart :series="dailyExpensesSeries" />
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -35,6 +41,7 @@
 import CategoryPieChart from "@/components/charts/CategoryPieChart";
 import IncomesExpensesChart from "@/components/charts/IncomesExpensesChart";
 import CurrentCurrencies from "./CurrentCurrencies"
+import CategoriesColumnChart from "@/components/charts/CategoriesColumnChart";
 
 export default {
   name: "Dashboard",
@@ -42,6 +49,7 @@ export default {
     CategoryPieChart,
     IncomesExpensesChart,
     CurrentCurrencies,
+    CategoriesColumnChart,
   },
   data: () => ({
     thisMonthSeries: [],
@@ -50,6 +58,7 @@ export default {
     previousMonthLabels: [],
     incomesExpensesSeries: [],
     incomesExpensesLabels: [],
+    dailyExpensesSeries:[],
   }),
   created() {
     this.refreshDashboard();
@@ -99,6 +108,10 @@ export default {
           this.incomesExpensesLabels =  this.$store.state.reports.dashboardData.items.incomes.map(
             x => (new Date(x.From).toLocaleString('default', { month: 'long', year: 'numeric' }))
           );
+
+          this.dailyExpensesSeries = this.$store.state.reports.dashboardData.items.expensesChart.map(
+            x => ({name : x.name, data : x.data.map(y => ({x: y.xAxis, y: y.yAxis})) })
+          )
       }
     }
   }
