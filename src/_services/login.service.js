@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { handleResponse } from '../_helpers';
+import { catchErrors } from '../_helpers';
 export const loginService = {
     login,
-    logout
+    logout,
+    register,
 };
 
 function login(username, password) {
@@ -22,4 +24,11 @@ function login(username, password) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('jwt-token');
+}
+
+function register(user) {
+    return  axios.post(`/Login/Register`, JSON.stringify(user), { headers: { 'Content-Type': 'application/json' }})
+    .then(handleResponse)
+    .catch(catchErrors);
+   
 }

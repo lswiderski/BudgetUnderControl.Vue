@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 
 import { alert } from './alert.module';
 import { authentication } from './authentication.module';
-import { login } from './login.module';
 import { categories } from './categories.module';
 import { accounts } from './accounts.module';
 import { transactions } from './transactions.module';
@@ -16,7 +15,6 @@ export default new Vuex.Store({
     modules: {
         alert,
         authentication,
-        login,
         categories,
         accounts,
         transactions,

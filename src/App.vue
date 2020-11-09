@@ -99,7 +99,7 @@
       color="indigo"
       app
     >
-      <span class="white--text">&copy; 2019</span>
+      <span class="white--text">Budget Under Control &copy; 2020</span>
     </v-footer>
   </v-app>
 </template>

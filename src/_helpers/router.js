@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Home from '../views/Home';
 import LoginPage from '../components/login/LoginPage'
+import RegisterPage from '../components/register/RegisterPage'
 import Categories from '../components/categories/Categories'
 import Accounts from '../components/accounts/Accounts'
 import Transactions from '../components/transactions/Transactions'
@@ -16,12 +17,14 @@ let router = new Router({
   routes: [
     { path: '/', component: Home },
     { path: '/login', component: LoginPage },
+    { path: '/register', component: RegisterPage },
     { path: '/categories', component: Categories },
     { path: '/accounts', component: Accounts },
     { path: '/transactions', component: Transactions },
     { path: '/tags', component: Tags },
     { path: '/report/movingsum', component: MovingSumReport },
-    {path: '/map', component: Map},
+    { path: '/map', component: Map},
+    { path: '/terms', name: 'terms', component: () => import('../views/Terms.vue') },
     {  path: '/about',
     name: 'about',
     // route level code-splitting
@@ -36,7 +39,7 @@ let router = new Router({
 export default router
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login'];
+  const publicPages = ['/login', '/register', '/terms'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('jwt-token');
 

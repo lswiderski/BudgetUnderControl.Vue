@@ -6,7 +6,9 @@ export function handleResponse(response) {
             logout();
             location.reload(true);
         }
+        
         const error = (response && response.message) || response.statusText;
+       
         return Promise.reject(error);
     }
     return response.data;
@@ -25,7 +27,21 @@ export function catchError(e) {
         Object.getOwnPropertyNames(obj).forEach(function (val) {
             errors.push(val + ' -> ' + obj[val].join("; "))
         });
+        return Promise.reject(errors);
+    }
+    const error = (e && e.message) || e.statusText;
+    return Promise.reject(error);
+}
 
+export function catchErrors(e) {
+    if (e.response.status === 401) {
+        // auto logout if 401 response returned from api
+        logout();
+        location.reload(true);
+
+    }
+    if (e.response.status === 400) {
+        let errors = e.response.data.errors;
         return Promise.reject(errors);
     }
     const error = (e && e.message) || e.statusText;
