@@ -2,9 +2,11 @@ import { loginService } from '../_services';
 import router from '../_helpers/router';
 
 const token = JSON.parse(localStorage.getItem('jwt-token'));
+const user = JSON.parse(localStorage.getItem('user'));
+
 const initialState = token
-    ? { status: { loggedIn: true }, token, errors: null }
-    : { status: {}, token: null, errors: {} };
+    ? { status: { loggedIn: true }, token, user, errors: null }
+    : { status: {}, token: null, user: null, errors: {} };
 
 const state = initialState;
 
@@ -45,7 +47,22 @@ const actions = {
                     dispatch('alert/error', error, { root: true });
                 }
             );
-    }
+    },
+    activate({ dispatch, commit }, { code }) {
+        commit('activateRequest', { code });
+
+        loginService.activate(code)
+            .then(
+                token => {
+                    commit('activateSuccess', token);
+                    router.push('/');
+                },
+                error => {
+                    commit('activateFailure', error);
+                    dispatch('alert/error', error, { root: true });
+                }
+            );
+    },
 };
 const mutations = {
     loginRequest(state, token) {
@@ -73,6 +90,18 @@ const mutations = {
         state.errors = {};
     },
     registerFailure(state, error) {
+        state.status = {};
+        state.errors = error
+    },
+    activateRequest(state) {
+        state.status = { activating: true };
+        state.errors = {};
+    },
+    activateSuccess(state) {
+        state.status = {};
+        state.errors = {};
+    },
+    activateFailure(state, error) {
         state.status = {};
         state.errors = error
     }

@@ -4,7 +4,7 @@
     <v-navigation-drawer
       v-model="drawer"
       app
-      v-if="IsLogged"
+      v-if="IsLoggedAndActivated"
     >
       <v-list dense>
         <v-list-item  to="/">
@@ -118,6 +118,9 @@ export default {
    computed: {
      IsLogged () {
             return this.$store.state.authentication.token
+        },
+    IsLoggedAndActivated () {
+            return this.$store.state.authentication.user != null && this.$store.state.authentication.user.isActivated
         }
     },
     watch:{

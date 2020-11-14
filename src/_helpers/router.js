@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '../views/Home';
 import LoginPage from '../components/login/LoginPage'
 import RegisterPage from '../components/register/RegisterPage'
+import ActivatePage from '../components/login/ActivatePage'
 import Categories from '../components/categories/Categories'
 import Accounts from '../components/accounts/Accounts'
 import Transactions from '../components/transactions/Transactions'
@@ -18,6 +19,7 @@ let router = new Router({
     { path: '/', component: Home },
     { path: '/login', component: LoginPage },
     { path: '/register', component: RegisterPage },
+    { path: '/activate', component: ActivatePage},
     { path: '/categories', component: Categories },
     { path: '/accounts', component: Accounts },
     { path: '/transactions', component: Transactions },
@@ -39,12 +41,19 @@ let router = new Router({
 export default router
 router.beforeEach((to, from, next) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login', '/register', '/terms'];
+  const publicPages = ['/login', '/register', '/terms', '/activate'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('jwt-token');
-
+  const user = JSON.parse(localStorage.getItem('user'));
   if (authRequired && !loggedIn) {
     return next('/login');
+  }
+
+  if(authRequired
+     && loggedIn
+     && !user.isActivated
+     && to.path !== '/activate') {
+    return next('/activate');
   }
 
   next();
