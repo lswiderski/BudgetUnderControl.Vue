@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import { alert } from './alert.module';
 import { authentication } from './authentication.module';
 import { categories } from './categories.module';
+import { users } from './users.module';
 import { accounts } from './accounts.module';
 import { transactions } from './transactions.module';
 import { tags } from './tags.module';
@@ -16,6 +17,7 @@ export default new Vuex.Store({
         alert,
         authentication,
         categories,
+        users,
         accounts,
         transactions,
         tags,

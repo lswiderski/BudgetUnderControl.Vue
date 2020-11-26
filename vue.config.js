@@ -3,6 +3,7 @@ var webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 
 require('dotenv-defaults').config();
+
 module.exports = {
     configureWebpack: {
         plugins: [
@@ -15,7 +16,8 @@ module.exports = {
           ],
     },
     chainWebpack: config =>{
-        config.externals()
+        config.externals();
+        
     },
       devServer: {
         historyApiFallback: true,

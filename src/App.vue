@@ -71,6 +71,16 @@
             <v-list-item-title>About</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+         <v-list-item 
+         v-if="IsAdmin"
+         to="/users">
+          <v-list-item-action>
+            <v-icon>mdi-account-multiple</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Users</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
       <template v-slot:append>
         <div class="pa-2">
@@ -91,7 +101,11 @@
     <v-content>
       <v-container
         fluid
+         class="grey lighten-5"
       >
+       <v-alert type="error" v-if="alert.message">
+      {{alert.message}}
+    </v-alert>
       <router-view></router-view>
       </v-container>
     </v-content>
@@ -106,7 +120,7 @@
 
 <script>
 import Head from "./Head";
-
+import { mapState } from 'vuex'
 export default {
   name: 'App',
   components:{
@@ -116,12 +130,18 @@ export default {
       source: String,
     },
    computed: {
+      ...mapState({
+            alert: state => state.alert
+        }),
      IsLogged () {
             return this.$store.state.authentication.token
         },
     IsLoggedAndActivated () {
             return this.$store.state.authentication.user != null && this.$store.state.authentication.user.isActivated
-        }
+        },
+    IsAdmin () {
+            return this.$store.state.authentication.user != null && this.$store.state.authentication.user.isAdmin
+        },
     },
     watch:{
         // eslint-disable-next-line no-unused-vars

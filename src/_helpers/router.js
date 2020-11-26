@@ -6,6 +6,8 @@ import LoginPage from '../components/login/LoginPage'
 import RegisterPage from '../components/register/RegisterPage'
 import ActivatePage from '../components/login/ActivatePage'
 import Categories from '../components/categories/Categories'
+import Users from '../components/users/Users'
+import User from '../components/users/User'
 import Accounts from '../components/accounts/Accounts'
 import Transactions from '../components/transactions/Transactions'
 import Tags from '../components/tags/Tags'
@@ -21,6 +23,8 @@ let router = new Router({
     { path: '/register', component: RegisterPage },
     { path: '/activate', component: ActivatePage},
     { path: '/categories', component: Categories },
+    { path: '/users', component: Users },
+    { path: '/user/:id', component: User },
     { path: '/accounts', component: Accounts },
     { path: '/transactions', component: Transactions },
     { path: '/tags', component: Tags },
@@ -45,6 +49,7 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('jwt-token');
   const user = JSON.parse(localStorage.getItem('user'));
+  
   if (authRequired && !loggedIn) {
     return next('/login');
   }
@@ -54,6 +59,14 @@ router.beforeEach((to, from, next) => {
      && !user.isActivated
      && to.path !== '/activate') {
     return next('/activate');
+  }
+
+  const adminOnlyPages = ['/users', '/users'];
+  const adminRequired = adminOnlyPages.includes(to.path);
+
+  if(adminRequired && !user.isAdmin)
+  {
+    return next('/');
   }
 
   next();
