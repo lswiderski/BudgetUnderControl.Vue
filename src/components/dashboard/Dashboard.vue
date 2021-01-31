@@ -106,7 +106,7 @@ export default {
             }
           ];
           this.incomesExpensesLabels =  this.$store.state.reports.dashboardData.items.incomes.map(
-            x => (new Date(x.From).toLocaleString('default', { month: 'long', year: 'numeric' }))
+            x => (new Date(x.from).toLocaleString('default', { month: 'long', year: 'numeric' }))
           );
 
           this.dailyExpensesSeries = this.$store.state.reports.dashboardData.items.expensesChart.map(
