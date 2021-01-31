@@ -81,14 +81,14 @@ export default {
           serieValue => (Math.abs(serieValue.value))
         );
         this.thisMonthLabels = this.$store.state.reports.dashboardData.items.thisMonthCategoryChart.map(
-          serieValue => (serieValue.category)
+          serieValue => (`${serieValue.category}  ${Math.abs(serieValue.value)}`)
         );
 
         this.previousMonthSeries =  this.$store.state.reports.dashboardData.items.lastMonthCategoryChart.map(
           serieValue => (Math.abs(serieValue.value))
         );
         this.previousMonthLabels = this.$store.state.reports.dashboardData.items.lastMonthCategoryChart.map(
-          serieValue => (serieValue.category)
+          serieValue => (`${serieValue.category}  ${Math.abs(serieValue.value)}`)
         );
           this.incomesExpensesSeries =
           [
