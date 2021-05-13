@@ -1,10 +1,10 @@
 import { loginService } from '../services';
 import router from '../router';
 
-const token = JSON.parse(localStorage.getItem('jwt-token'));
+const token = localStorage.getItem('jwt-token');
 const user = JSON.parse(localStorage.getItem('user'));
 
-const initialState = token
+const initialState = user
     ? { status: { loggedIn: true }, token, user, errors: null }
     : { status: {}, token: null, user: null, errors: {} };
 
@@ -12,12 +12,13 @@ const state = initialState;
 
 const actions = {
     login({ dispatch, commit }, { username, password }) {
-        commit('loginRequest', { username });
+        commit('loginRequest');
 
         loginService.login(username, password)
             .then(
-                token => {
-                    commit('loginSuccess', token);
+                result => {
+                    const { token, user } = result;
+                    commit('loginSuccess', {token, user});
                     router.push('/');
                 },
                 error => {
@@ -53,8 +54,8 @@ const actions = {
 
         loginService.activate(code)
             .then(
-                token => {
-                    commit('activateSuccess', token);
+                user => {
+                    commit('activateSuccess', user);
                     router.push('/');
                 },
                 error => {
@@ -65,21 +66,25 @@ const actions = {
     },
 };
 const mutations = {
-    loginRequest(state, token) {
+    loginRequest(state) {
         state.status = { loggingIn: true };
-        state.token = token;
+        state.token = null;
+        state.user = {};
     },
-    loginSuccess(state, token) {
+    loginSuccess(state, {token, user}) {
         state.status = { loggedIn: true };
         state.token = token;
+        state.user = user;
     },
     loginFailure(state) {
         state.status = {};
         state.token = null;
+        state.user = null;
     },
     logout(state) {
         state.status = {};
         state.token = null;
+        state.user = null;
     },
     registerRequest(state) {
         state.status = { registering: true };
@@ -97,9 +102,10 @@ const mutations = {
         state.status = { activating: true };
         state.errors = {};
     },
-    activateSuccess(state) {
+    activateSuccess(state, user) {
         state.status = {};
         state.errors = {};
+        state.user = user;
     },
     activateFailure(state, error) {
         state.status = {};

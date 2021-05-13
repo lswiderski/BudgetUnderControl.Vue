@@ -1,8 +1,8 @@
 <template>
   <div :class="containerClass" @click="onWrapperClick">
-		<AppTopBar @menu-toggle="onMenuToggle" />
+		<AppTopBar @menu-toggle="onMenuToggle"/>
 
-        <transition name="layout-sidebar">
+        <transition name="layout-sidebar" >
             <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
                 <div class="layout-logo">
                     <router-link to="/">
@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
 
-                <AppProfile />
+                <AppProfile/>
                 <AppMenu :model="menu" @menuitem-click="onMenuItemClick" />
             </div>
         </transition>
@@ -19,7 +19,8 @@
 			<router-view />
 		</div>
 
-		<AppConfig :layoutMode="layoutMode" :layoutColorMode="layoutColorMode" @layout-change="onLayoutChange" @layout-color-change="onLayoutColorChange"/>
+		<AppConfig :layoutMode="layoutMode" :layoutColorMode="layoutColorMode" @layout-change="onLayoutChange" @layout-color-change="onLayoutColorChange"
+         />
 
 		<AppFooter />
 	</div>
@@ -46,7 +47,6 @@ export default {
 					label: 'Menu temp', icon: 'pi pi-fw pi-sitemap',
 					items: [
 						{label: 'About', icon: 'pi pi-fw pi-question', to: '/About'},
-						{label: 'Login', icon: 'pi pi-fw pi-user-edit', to: '/login'},
 					]
 				},
                

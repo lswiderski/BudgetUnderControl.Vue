@@ -18,11 +18,11 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+    component: () => import('../views/user/Login.vue'),
   },
+  { path: '/register',  name:'register', component: () => import( '../views/user/Register.vue')},
+  { path: '/activate', name: 'tactivate', component: () => import('../views/user/Activate.vue')},
+  { path: '/terms', name: 'terms', component: () => import('../views/Terms.vue')},
 ];
 
 const router = createRouter({
@@ -31,3 +31,23 @@ const router = createRouter({
 });
 
 export default router;
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login', '/register', '/terms', '/activate', '/about'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('jwt-token');
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  if(authRequired
+     && loggedIn
+     && !user.isActivated
+     && to.path !== '/activate') {
+    return next('/activate');
+  }
+
+  next();
+})

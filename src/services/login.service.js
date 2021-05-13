@@ -6,6 +6,7 @@ export const loginService = {
     register,
     activate,
     resetActivationCode,
+    getUserIdentityContext
 };
  function login(username, password) {
     return axios.post(`/Login/Authenticate`, JSON.stringify({ username, password }), { headers: { 'Content-Type': 'application/json' } })
@@ -15,28 +16,30 @@ export const loginService = {
             if (token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('jwt-token', JSON.stringify(token));
-                // call for user Identity
-                await getUserIdentityContext();
             }
-
             return token;
+        })
+        .then(async (token) => {
+           const user = await getUserIdentityContext();
+           return {token, user};
         });
 }
 
-async function getUserIdentityContext() {
-    await axios.get('/Users/IdentityContext', { params:{}, headers: authHeader()})
+ function getUserIdentityContext() {
+    return axios.get('/Users/IdentityContext', { params:{}, headers: authHeader()})
         .then(handleResponse)
-        .then(user => {
+        .then(async user => {
             if (user) {
                 localStorage.setItem('user', JSON.stringify(user));
             }
             return user;
-        })
+        });
 }
 
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('jwt-token');
+    localStorage.removeItem('user');
 }
 
 function register(user) {
@@ -49,7 +52,8 @@ function activate(code) {
     return axios.post(`/Users/Activate`, {code}, { headers: authHeader() })
         .then(handleResponse)
         .then(async () => {
-            await getUserIdentityContext();
+            const user = await getUserIdentityContext();
+            return user;
         });
 }
 
