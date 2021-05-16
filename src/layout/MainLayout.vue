@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClass" @click="onWrapperClick">
 		<AppTopBar @menu-toggle="onMenuToggle"/>
-
+        <Toast />
         <transition name="layout-sidebar" >
             <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
                 <div class="layout-logo">
@@ -47,6 +47,9 @@ export default {
 					label: 'Menu temp', icon: 'pi pi-fw pi-sitemap',
 					items: [
 						{label: 'About', icon: 'pi pi-fw pi-question', to: '/About'},
+                        {label: 'Categories', icon: 'pi pi-fw pi-question', to: '/categories'},
+                        {label: 'Accounts', icon: 'pi pi-fw pi-question', to: '/accounts'},
+                        {label: 'Tags', icon: 'pi pi-fw pi-question', to: '/tags'},
 					]
 				},
                
