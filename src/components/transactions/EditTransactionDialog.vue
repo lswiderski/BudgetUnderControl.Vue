@@ -210,6 +210,17 @@
                   />
                 </div>
                 <div class="p-field p-col-12 p-md-12">
+                  <label for="comment">Map</label>
+<OnePointMap
+                        :latitude="transaction.latitude"
+                        :longitude="transaction.longitude"
+                        :centerLatitude="centerLatitude"
+                        :centerLongitude="centerLongitude"
+                        v-on:coordsChanged="onMapClick"
+                        ref="transacionMap"
+                      />
+                </div>
+                <div class="p-field p-col-12 p-md-12">
                   <label for="comment">Comment</label>
                   <Textarea
                     v-model="transaction.comment"
@@ -250,9 +261,13 @@ import { handleResponse } from "../../_helpers";
 import { catchError } from "../../_helpers";
 import axios from "axios";
 import { transactionsService } from "../../services";
+import OnePointMap from "../maps/OnePointMap";
 
 export default {
   name: "EditTransactionDialog",
+    components: {
+    OnePointMap
+  },
   data() {
     return {
       transactionDialog: false,
@@ -348,13 +363,18 @@ export default {
       return dto;
     },
 
+        onMapClick(value) {
+      this.transaction.latitude = value.lat;
+      this.transaction.longitude = value.lng;
+    },
+
     openEmptyDialog() {
       this.transaction = {... this.defaultItem };
       this.errors = [];
       this.transactionDialog = true;
     //  this.hasImage = this.editedItem.fileGuid !== null && this.editedItem.fileGuid !== undefined;
       setTimeout(() => {
-       // this.$refs.transacionMap.invalideSize();
+        this.$refs.transacionMap.invalideSize();
       }, 100);
     },
 
@@ -367,6 +387,9 @@ export default {
           const dto = _self.mapAPItoEdit(data);
           _self.transaction = { ...dto }; //Object.assign({}, dto);
           _self.transactionDialog = true;
+           setTimeout(() => {
+        this.$refs.transacionMap.invalideSize();
+      }, 100);
         })
         .catch((errors) => {
           _self.errors = errors;
