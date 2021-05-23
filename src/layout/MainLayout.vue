@@ -50,6 +50,7 @@ export default {
                         {label: 'Categories', icon: 'pi pi-fw pi-question', to: '/categories'},
                         {label: 'Accounts', icon: 'pi pi-fw pi-question', to: '/accounts'},
                         {label: 'Tags', icon: 'pi pi-fw pi-question', to: '/tags'},
+                         {label: 'Transactions', icon: 'pi pi-fw pi-question', to: '/transactions'},
 					]
 				},
                

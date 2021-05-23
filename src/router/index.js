@@ -22,6 +22,7 @@ const routes = [
   { path: '/categories',  name:'Categories', component: () => import( '../views/categories/Categories.vue')},
   { path: '/accounts',  name:'Accounts', component: () => import( '../views/accounts/Accounts.vue')},
   { path: '/tags',  name:'Tags', component: () => import( '../views/tags/Tags.vue')},
+  { path: '/transactions',  name:'Transactions', component: () => import( '../views/transactions/Transactions.vue')},
 ];
 
 const router = createRouter({
