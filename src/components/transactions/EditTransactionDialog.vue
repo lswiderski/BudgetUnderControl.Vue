@@ -263,6 +263,7 @@ import axios from "axios";
 import { transactionsService } from "../../services";
 import OnePointMap from "../maps/OnePointMap";
 
+
 export default {
   name: "EditTransactionDialog",
     components: {

@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueApexCharts from 'vue3-apexcharts'
 import Configuration from './_helpers/configuration';
 
 axios.defaults.baseURL = Configuration.value('backendHost');
@@ -21,4 +22,5 @@ usePrimeVue(app);
 app.use(store)
   .use(VueAxios, axios)
   .use(router)
+  .use(VueApexCharts)
   .mount('#app');

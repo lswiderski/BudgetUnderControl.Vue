@@ -51,6 +51,7 @@ export default {
                         {label: 'Accounts', icon: 'pi pi-fw pi-question', to: '/accounts'},
                         {label: 'Tags', icon: 'pi pi-fw pi-question', to: '/tags'},
                          {label: 'Transactions', icon: 'pi pi-fw pi-question', to: '/transactions'},
+                            {label: 'Moving sum report', icon: 'pi pi-fw pi-question', to: '/report/movingsum'},
 					]
 				},
                

@@ -23,6 +23,7 @@ const routes = [
   { path: '/accounts',  name:'Accounts', component: () => import( '../views/accounts/Accounts.vue')},
   { path: '/tags',  name:'Tags', component: () => import( '../views/tags/Tags.vue')},
   { path: '/transactions',  name:'Transactions', component: () => import( '../views/transactions/Transactions.vue')},
+  { path: '/report/movingsum',  name:'MovingSum', component: () => import( '../views/reports/MovingSum.vue')},
 ];
 
 const router = createRouter({
