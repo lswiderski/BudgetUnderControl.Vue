@@ -6,7 +6,7 @@
             <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
                 <div class="layout-logo">
                     <router-link to="/">
-                        <img alt="Logo" :src="logo" />
+                        Budget Under Control<!--<img alt="Logo" :src="logo" />-->
                     </router-link>
                 </div>
 
@@ -43,17 +43,12 @@ export default {
             mobileMenuActive: false,
             menu : [
                 {label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'},
-				{
-					label: 'Menu temp', icon: 'pi pi-fw pi-sitemap',
-					items: [
-						{label: 'About', icon: 'pi pi-fw pi-question', to: '/About'},
-                        {label: 'Categories', icon: 'pi pi-fw pi-question', to: '/categories'},
-                        {label: 'Accounts', icon: 'pi pi-fw pi-question', to: '/accounts'},
-                        {label: 'Tags', icon: 'pi pi-fw pi-question', to: '/tags'},
-                         {label: 'Transactions', icon: 'pi pi-fw pi-question', to: '/transactions'},
-                            {label: 'Moving sum report', icon: 'pi pi-fw pi-question', to: '/report/movingsum'},
-					]
-				},
+                {label: 'Transactions', icon: 'pi pi-fw pi-list', to: '/transactions'},
+                {label: 'Accounts', icon: 'pi pi-fw pi-money-bill', to: '/accounts'},
+                {label: 'Categories', icon: 'pi pi-fw pi-folder-open', to: '/categories'},
+                {label: 'Tags', icon: 'pi pi-fw pi-tags', to: '/tags'},
+                {label: 'Moving sum report', icon: 'pi pi-fw pi-chart-line', to: '/report/movingsum'},
+                {label: 'About', icon: 'pi pi-fw pi-question', to: '/About'},
                
             ]
         }
