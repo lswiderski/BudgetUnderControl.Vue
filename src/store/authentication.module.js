@@ -19,11 +19,13 @@ const actions = {
                 result => {
                     const { token, user } = result;
                     commit('loginSuccess', {token, user});
+                    dispatch('alert/success', { title: 'Success!', message: 'Successful login' }, { root: true });
                     router.push('/');
+                   
                 },
                 error => {
                     commit('loginFailure', error);
-                    dispatch('alert/error', error, { root: true });
+                    dispatch('alert/error', error.message, { root: true });
                 }
             );
     },
@@ -40,12 +42,12 @@ const actions = {
                     router.push('/login');
                     setTimeout(() => {
                         // display success message after route change completes
-                        dispatch('alert/success', 'Registration successful', { root: true });
+                        dispatch('alert/success', { title: 'Success!', message: 'Registration successful' }, { root: true });
                     })
                 },
                 error => {
                     commit('registerFailure', error);
-                    dispatch('alert/error', error, { root: true });
+                    dispatch('alert/error', error.message, { root: true });
                 }
             );
     },
@@ -60,7 +62,7 @@ const actions = {
                 },
                 error => {
                     commit('activateFailure', error);
-                    dispatch('alert/error', error, { root: true });
+                    dispatch('alert/error', error.message, { root: true });
                 }
             );
     },

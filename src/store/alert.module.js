@@ -1,32 +1,49 @@
 export const alert = {
     namespaced: true,
     state: {
-        type: null,
-        message: null
+        message: null,
+        title: null,
     },
     actions: {
-        success({ commit }, message) {
-            commit('success', message);
+        success({ commit }, payload) {
+            commit('success', payload);
         },
         error({ commit }, message) {
             commit('error', message);
         },
-        clear({ commit }, message) {
-            commit('success', message);
+        info({ commit }, payload) {
+            commit('info', payload);
+        },
+        warn({ commit }, payload) {
+            commit('warn',payload);
+        },
+        clear({ commit }) {
+            commit('success');
         }
     },
     mutations: {
-        success(state, message) {
-            state.type = 'alert-success';
+        success(state, { title, message}) {
             state.message = message;
+            state.title =  title
         },
         error(state, message) {
-            state.type = 'alert-danger';
+            state.message =  message;
+        },
+        info(state, { title, message}) {
             state.message = message;
+            state.title =  title
+        },
+        warn(state,{ title, message}) {
+            state.message = message;
+            state.title =  title
         },
         clear(state) {
-            state.type = null;
             state.message = null;
+        }
+    },
+    getters :{
+        alert: state => {
+            return state;
         }
     }
 }

@@ -1,7 +1,6 @@
 <template>
   <div :class="containerClass" @click="onWrapperClick">
 		<AppTopBar @menu-toggle="onMenuToggle"/>
-        <Toast />
         <transition name="layout-sidebar" >
             <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
                 <div class="layout-logo">
@@ -56,8 +55,7 @@ export default {
     watch: {
         $route() {
             this.menuActive = false;
-            this.$toast.removeAllGroups();
-        }
+        },
     },
     methods: {
         onWrapperClick() {
@@ -154,7 +152,7 @@ export default {
         },
         logo() {
             return (this.layoutColorMode === 'dark') ? "assets/layout/images/logo-white.svg" : "assets/layout/images/logo.svg";
-        }
+        },
     },
     beforeUpdate() {
         if (this.mobileMenuActive)
@@ -168,7 +166,7 @@ export default {
         'AppMenu': AppMenu,
         'AppConfig': AppConfig,
         'AppFooter': AppFooter,
-    }
+    },
 };
 </script>
 <style lang="scss" >

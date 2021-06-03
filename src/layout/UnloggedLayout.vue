@@ -1,6 +1,7 @@
 <template>
   <div :class="containerClass">
 		<div class="layout-main ">
+                    
 			<router-view />
 		</div>
 		<AppFooter />
@@ -8,6 +9,7 @@
 </template>
 <script>
 import AppFooter from './AppFooter.vue';
+
 export default {
   mainLayout: {
   },
@@ -15,12 +17,7 @@ export default {
         return {
             layoutMode: 'static',
             layoutColorMode: 'dark',
-        }
-    },
-    watch: {
-        $route() {
-            this.menuActive = false;
-            this.$toast.removeAllGroups();
+            toastContent: null
         }
     },
     methods: {
@@ -41,9 +38,14 @@ export default {
         },
      
     },
-   
+       watch: {
+        $route() {
+            this.menuActive = false;
+        },
+    },
     components: {
         'AppFooter': AppFooter,
+
     }
 };
 </script>
