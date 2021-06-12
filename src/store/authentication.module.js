@@ -11,46 +11,37 @@ const initialState = user
 const state = initialState;
 
 const actions = {
-    login({ dispatch, commit }, { username, password }) {
-        commit('loginRequest');
-
-        loginService.login(username, password)
-            .then(
-                result => {
-                    const { token, user } = result;
-                    commit('loginSuccess', {token, user});
-                    dispatch('alert/success', { title: 'Success!', message: 'Successful login' }, { root: true });
-                    router.push('/');
-                   
-                },
-                error => {
-                    commit('loginFailure', error);
-                    dispatch('alert/error', error.message, { root: true });
-                }
-            );
+    loginSuccess({ dispatch, commit }, {token, user}) {
+        commit('loginSuccess', {token, user});
+        dispatch('alert/success', { title: 'Success!', message: 'Successful login' }, { root: true });
+        router.push('/');
     },
+    loginFailure({ dispatch, commit },  error) {
+        commit('loginFailure', error);
+        dispatch('alert/error', error.message, { root: true });
+    },
+    loginRequest({ commit }, ) {
+        commit('loginRequest');
+    },
+
     logout({ commit }) {
         loginService.logout();
         commit('logout');
     },
-    register({ dispatch, commit }, user) {
-        commit('registerRequest', user);
-        loginService.register(user)
-            .then(
-                user => {
-                    commit('registerSuccess', user);
-                    router.push('/login');
-                    setTimeout(() => {
-                        // display success message after route change completes
-                        dispatch('alert/success', { title: 'Success!', message: 'Registration successful' }, { root: true });
-                    })
-                },
-                error => {
-                    commit('registerFailure', error);
-                    dispatch('alert/error', error.message, { root: true });
-                }
-            );
+
+    registerSuccess({ dispatch, commit }) {
+        commit('registerSuccess');
+        dispatch('alert/success', { title: 'Success!', message: 'Registration successful' }, { root: true });
+        router.push('/login');
     },
+    registerFailure({ dispatch, commit },  error) {
+        commit('registerFailure', error);
+        dispatch('alert/error', error.message, { root: true });
+    },
+    registerRequest({ commit }, ) {
+        commit('registerRequest');
+    },
+
     activate({ dispatch, commit }, { code }) {
         commit('activateRequest', { code });
 

@@ -33,6 +33,16 @@ export function catchError(e) {
     return Promise.reject(error);
 }
 
+export function mapServerSideErrors(errorPayload) {
+    if (errorPayload.errorType === "Validation") {
+    return Object.assign(
+        {},
+        ...errorPayload.errors.map((x) => ({ [x.propertyName]: x.errorMessage }))
+      );
+    }
+    return errorPayload
+}
+
 export function catchErrors(e) {
     if (e.response.status === 401) {
         // auto logout if 401 response returned from api
@@ -41,8 +51,8 @@ export function catchErrors(e) {
 
     }
     if (e.response.status === 400) {
-        let errors = e.response.data.errors;
-        return Promise.reject(errors);
+        let errorPayload = e.response.data;
+        return Promise.reject(errorPayload);
     }
     const error = (e && e.message) || e.statusText;
     return Promise.reject(error);
