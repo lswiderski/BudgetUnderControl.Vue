@@ -427,7 +427,31 @@
             </div>
           </div>
         </TabPanel>
-        <TabPanel header="Files"> </TabPanel>
+        <TabPanel header="Files">
+          <div>
+            <div class="p-field">
+               <FileUpload
+              v-if="!hasImage"
+              name="files"
+              accept="image/*"
+              mode="basic"
+              :customUpload="true"
+              @uploader="imageUploader"
+            />
+            <Button
+              v-if="hasImage"
+              label="Remove File"
+              icon="pi pi-times"
+              class="p-button-text"
+              @click="removeFile"
+            />
+            </div>
+           
+            <div class="p-field">
+              <img v-if="hasImage" :src="imageUrl" class="transaction-attachment-image" />
+            </div>
+          </div>
+        </TabPanel>
       </TabView>
 
       <template #footer>
@@ -449,11 +473,10 @@
 </template>
 
 <script>
-import { authHeader } from "../../_helpers";
-import { handleResponse } from "../../_helpers";
-import { catchErrors } from "../../_helpers";
+import { authHeader, handleResponse, catchErrors } from "../../_helpers";
+import Configuration from "../../_helpers/configuration";
 import axios from "axios";
-import { transactionsService } from "../../services";
+import { transactionsService, filesService } from "../../services";
 import OnePointMap from "../maps/OnePointMap";
 import useVuelidate from "@vuelidate/core";
 import {
@@ -480,6 +503,7 @@ export default {
       accounts: [],
       categories: [],
       isExist: false,
+      hasImage: false,
       defaultItem: {
         name: "",
         accountId: null,
@@ -563,11 +587,17 @@ export default {
           this.accounts[transferAccountIndex].currencyId
       );
     },
+    imageUrl() {
+      return `${Configuration.value("backendHost")}/files/${
+        this.transaction.fileGuid
+      }?token=SECUREDTOKEN`;
+    },
   },
   methods: {
     hideDialog() {
       this.transactionDialog = false;
       this.submitted = false;
+      this.hasImage = false;
     },
     mapAPItoEdit(data) {
       let dto = { ...data };
@@ -584,7 +614,6 @@ export default {
       return dto;
     },
     mapEditToAPI(data) {
-      debugger;
       let dto = { ...data };
       dto.extendedType = data.type;
       if (dto.amount > 0) {
@@ -613,7 +642,9 @@ export default {
         this.transaction.categoryId = this.categories[0].id;
       }
 
-      //  this.hasImage = this.editedItem.fileGuid !== null && this.editedItem.fileGuid !== undefined;
+      this.hasImage =
+        this.transaction.fileGuid !== null &&
+        this.transaction.fileGuid !== undefined;
       setTimeout(() => {
         this.$refs.transacionMap.invalideSize();
       }, 100);
@@ -626,8 +657,11 @@ export default {
         .get(item.externalId)
         .then((data) => {
           const dto = _self.mapAPItoEdit(data);
-          _self.transaction = { ...dto }; //Object.assign({}, dto);
+          _self.transaction = { ...dto };
           _self.transactionDialog = true;
+          _self.hasImage =
+            _self.transaction.fileGuid !== null &&
+            _self.transaction.fileGuid !== undefined;
           setTimeout(() => {
             this.$refs.transacionMap.invalideSize();
           }, 100);
@@ -656,7 +690,6 @@ export default {
             this.hideDialog();
           })
           .catch((data) => {
-            debugger;
             _self.errors = data;
           });
       } else {
@@ -669,7 +702,6 @@ export default {
             this.hideDialog();
           },
           (errors) => {
-            debugger;
             _self.errors = errors;
           }
         );
@@ -683,6 +715,26 @@ export default {
       }
 
       return -1;
+    },
+    imageUploader(event) {
+      const _self = this;
+      filesService
+        .add(event.files[0])
+        .then((result) => {
+          _self.hasImage = true;
+          _self.transaction.fileGuid = result;
+        })
+        .catch(catchErrors);
+    },
+    removeFile() {
+      const _self = this;
+      filesService
+        .remove(this.transaction.fileGuid)
+        .then(() => {
+          _self.hasImage = false;
+          _self.transaction.fileGuid = null;
+        })
+        .catch(catchErrors);
     },
   },
   watch: {
@@ -717,3 +769,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.transaction-attachment-image{
+  width:100%;
+}
+</style>
