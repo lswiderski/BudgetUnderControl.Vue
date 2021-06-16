@@ -1,6 +1,6 @@
 import { authHeader } from '../_helpers';
 import { handleResponse } from '../_helpers';
-import { catchError } from '../_helpers';
+import { catchErrors } from '../_helpers';
 import axios from 'axios';
 
 export const reportsService = {
@@ -15,13 +15,13 @@ function getMovingSumData(filters) {
         return Qs.stringify(params, {arrayFormat: 'repeat'})
     }})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 
 function getDashboardData() {
     return axios.get(`/reports/dashboard`, { headers: authHeader() })
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 
 function getExpensesChartData(filters) {
@@ -30,5 +30,5 @@ function getExpensesChartData(filters) {
         return Qs.stringify(params, {arrayFormat: 'repeat'})
     }})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }

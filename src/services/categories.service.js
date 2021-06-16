@@ -1,6 +1,6 @@
 import { authHeader } from '../_helpers';
 import { handleResponse } from '../_helpers';
-import { catchError } from '../_helpers';
+import { catchErrors } from '../_helpers';
 import axios from 'axios';
 
 export const categoriesService = {
@@ -13,5 +13,5 @@ function getAll() {
     .then(handleResponse)
     .then(data => {
         return data;
-    }).catch(catchError);
+    }).catch(catchErrors);
 }

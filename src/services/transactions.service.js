@@ -1,6 +1,6 @@
 import { authHeader } from '../_helpers';
 import { handleResponse } from '../_helpers';
-import { catchError } from '../_helpers';
+import { catchErrors } from '../_helpers';
 import axios from 'axios';
 
 export const transactionsService = {
@@ -19,34 +19,34 @@ function getAll(filters) {
     .then(handleResponse)
     .then(data => {
         return data;
-    }).catch(catchError);
+    }).catch(catchErrors);
 }
 
 function add(transaction) {
 
     return axios.post(`/transactions`, transaction, { headers: authHeader()})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 
 function get(guid) {
 
     return axios.get(`/transactions/${guid}`, { params:{}, headers: authHeader()})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 
 function edit(guid, transaction) {
 
     return axios.put(`/transactions/${guid}`,transaction, { params:{}, headers: authHeader()})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 
 function remove(guid) {
 
     return axios.delete(`/transactions/${guid}`, { params:{}, headers: authHeader()})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 

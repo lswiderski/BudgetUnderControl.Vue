@@ -1,6 +1,6 @@
 import { authHeader } from '../_helpers';
 import { handleResponse } from '../_helpers';
-import { catchError, catchErrors } from '../_helpers';
+import { catchErrors } from '../_helpers';
 import axios from 'axios';
 
 export const usersService = {
@@ -15,13 +15,13 @@ function getAll() {
     .then(handleResponse)
     .then(data => {
         return data;
-    }).catch(catchError);
+    }).catch(catchErrors);
 }
 
 function get(guid) {
     return axios.get(`/users/${guid}`, { params:{}, headers: authHeader()})
     .then(handleResponse)
-    .catch(catchError);
+    .catch(catchErrors);
 }
 
 function edit(guid, command) {

@@ -8,8 +8,7 @@
       @click="innerClick"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-      <l-marker :lat-lng="markerLocation">
-      </l-marker>
+      <l-marker :lat-lng="markerLocation"> </l-marker>
     </l-map>
   </div>
 </template>
@@ -42,8 +41,8 @@ export default {
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       mapOptions: {
-        zoomSnap: 0.5
-      }
+        zoomSnap: 0.5,
+      },
     };
   },
   computed: {
@@ -55,23 +54,26 @@ export default {
     },
     center() {
       return latLng(this.centerLatitude, this.centerLongitude);
-    }
+    },
   },
   methods: {
     innerClick(e) {
-      this.lat = e.latlng.lat;
-      this.lng = e.latlng.lng;
-      this.$emit("coordsChanged", { lat: this.lat, lng: this.lng });
+      if (e.latlng) {
+        this.lat = e.latlng.lat;
+        this.lng = e.latlng.lng;
+        this.$emit("coordsChanged", { lat: this.lat, lng: this.lng });
+      }
     },
 
-    invalideSize() {  
+    invalideSize() {
       this.lat = this.latitude;
       this.lng = this.longitude;
-      this.$refs.transactionMap.mapObject.invalidateSize();
-    }
-  }
+      if (this.$refs.transactionMap.mapObject) {
+        this.$refs.transactionMap.mapObject.invalidateSize();
+      }
+    },
+  },
 };
 </script>
 <style lang="sass" scoped>
-
 </style>

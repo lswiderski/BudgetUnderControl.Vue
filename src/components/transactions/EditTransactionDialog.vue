@@ -20,23 +20,53 @@
                     :options="types"
                     optionLabel="text"
                     optionValue="value"
-                    :class="{ 'p-invalid': submitted && !transaction.type }"
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.type.$invalid) ||
+                        errors.type,
+                    }"
                   />
-                  <small class="p-error" v-if="submitted && !transaction.type"
-                    >Type is required.</small
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.type.$invalid"
+                    >{{
+                      v$.transaction.type.required.$message.replace(
+                        "Value",
+                        "Type"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.type">
+                    {{ errors.type }}</small
                   >
                 </div>
                 <div class="p-field p-col-12 p-md-6">
-                  <label for="amount">Value</label>
-                  <InputText
+                  <label for="amount">Amount</label>
+                  <InputNumber
+                    :minFractionDigits="1"
+                    mode="decimal"
                     id="amount"
-                    v-model.trim="transaction.amount"
+                    v-model="transaction.amount"
                     required="true"
                     autofocus
-                    :class="{ 'p-invalid': submitted && !transaction.amount }"
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.amount.$invalid) ||
+                        errors.amount,
+                    }"
                   />
-                  <small class="p-error" v-if="submitted && !transaction.amount"
-                    >Value is required.</small
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.amount.$invalid"
+                    >{{
+                      v$.transaction.amount.required.$message.replace(
+                        "Value",
+                        "Amount"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.amount">
+                    {{ errors.amount }}</small
                   >
                 </div>
                 <div class="p-field p-col-12 p-md-6">
@@ -46,10 +76,24 @@
                     v-model.trim="transaction.name"
                     required="true"
                     autofocus
-                    :class="{ 'p-invalid': submitted && !transaction.name }"
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.name.$invalid) ||
+                        errors.name,
+                    }"
                   />
-                  <small class="p-error" v-if="submitted && !transaction.name"
-                    >Name is required.</small
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.name.$invalid"
+                    >{{
+                      v$.transaction.name.required.$message.replace(
+                        "Value",
+                        "Name"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.name">
+                    {{ errors.name }}</small
                   >
                 </div>
                 <div class="p-field p-col-12 p-md-6">
@@ -61,13 +105,23 @@
                     optionLabel="name"
                     optionValue="id"
                     :class="{
-                      'p-invalid': submitted && !transaction.accountId,
+                      'p-invalid':
+                        (submitted && v$.transaction.accountId.$invalid) ||
+                        errors.accountId,
                     }"
                   />
                   <small
                     class="p-error"
-                    v-if="submitted && !transaction.accountId"
-                    >Account is required.</small
+                    v-if="submitted && v$.transaction.accountId.$invalid"
+                    >{{
+                      v$.transaction.accountId.required.$message.replace(
+                        "Value",
+                        "Account"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.accountid">
+                    {{ errors.accountid }}</small
                   >
                 </div>
                 <div class="p-field p-col-12 p-md-6">
@@ -79,13 +133,23 @@
                     optionLabel="name"
                     optionValue="id"
                     :class="{
-                      'p-invalid': submitted && !transaction.categoryId,
+                      'p-invalid':
+                        (submitted && v$.transaction.categoryId.$invalid) ||
+                        errors.categoryId,
                     }"
                   />
                   <small
                     class="p-error"
-                    v-if="submitted && !transaction.categoryId"
-                    >Account is required.</small
+                    v-if="submitted && v$.transaction.categoryId.$invalid"
+                    >{{
+                      v$.transaction.categoryId.required.$message.replace(
+                        "Value",
+                        "Category"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.categoryid">
+                    {{ errors.categoryid }}</small
                   >
                 </div>
                 <div class="p-field p-col-12 p-md-6">
@@ -98,9 +162,24 @@
                     :monthNavigator="true"
                     yearRange="2000:2030"
                     :showTime="true"
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.date.$invalid) ||
+                        errors.date,
+                    }"
                   />
-                  <small class="p-error" v-if="submitted && !transaction.date"
-                    >Date is required.</small
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.date.$invalid"
+                    >{{
+                      v$.transaction.date.required.$message.replace(
+                        "Value",
+                        "Date"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.date">
+                    {{ errors.date }}</small
                   >
                 </div>
                 <div
@@ -117,11 +196,24 @@
                       :monthNavigator="true"
                       yearRange="2000:2030"
                       :showTime="true"
+                      :class="{
+                        'p-invalid':
+                          (submitted && v$.transaction.transferDate.$invalid) ||
+                          errors.transferdate,
+                      }"
                     />
                     <small
                       class="p-error"
-                      v-if="submitted && !transaction.transferDate"
-                      >Transfer is required.</small
+                      v-if="submitted && v$.transaction.transferDate.$invalid"
+                      >{{
+                        v$.transaction.transferDate.required.$message.replace(
+                          "Value",
+                          "Transfer Account"
+                        )
+                      }}</small
+                    >
+                    <small class="p-error" v-else-if="errors.transferdate">
+                      {{ errors.transferdate }}</small
                     >
                   </div>
                   <div class="p-field p-col-12 p-md-6">
@@ -134,30 +226,55 @@
                       optionValue="id"
                       :class="{
                         'p-invalid':
-                          submitted && !transaction.transferAccountId,
+                          (submitted &&
+                            v$.transaction.transferAccountId.$invalid) ||
+                          errors.transferaccountid,
                       }"
                     />
                     <small
                       class="p-error"
-                      v-if="submitted && !transaction.transferAccountId"
-                      >Account is required.</small
+                      v-if="
+                        submitted && v$.transaction.transferAccountId.$invalid
+                      "
+                      >{{
+                        v$.transaction.transferAccountId.required.$message.replace(
+                          "Value",
+                          "Transfer Account"
+                        )
+                      }}</small
+                    >
+                    <small class="p-error" v-else-if="errors.transferaccountid">
+                      {{ errors.transferaccountid }}</small
                     >
                   </div>
                   <div class="p-field p-col-12 p-md-6">
                     <label for="transferAmount">Transfer Amount</label>
-                    <InputText
+                    <InputNumber
+                      :minFractionDigits="1"
+                      mode="decimal"
                       id="transferAmount"
-                      v-model.trim="transaction.transferAmount"
+                      v-model="transaction.transferAmount"
                       required="true"
                       autofocus
                       :class="{
-                        'p-invalid': submitted && !transaction.transferAmount,
+                        'p-invalid':
+                          (submitted &&
+                            v$.transaction.transferAmount.$invalid) ||
+                          errors.transferamount,
                       }"
                     />
                     <small
                       class="p-error"
-                      v-if="submitted && !transaction.transferAmount"
-                      >Value is required.</small
+                      v-if="submitted && v$.transaction.transferAmount.$invalid"
+                      >{{
+                        v$.transaction.transferAmount.required.$message.replace(
+                          "Value",
+                          "Transfer Amount"
+                        )
+                      }}</small
+                    >
+                    <small class="p-error" v-else-if="errors.transferamount">
+                      {{ errors.transferamount }}</small
                     >
                   </div>
                   <div
@@ -165,15 +282,31 @@
                     v-if="transaction.type === 2 && isTransferInOtherCurrency"
                   >
                     <label for="rate">Exchange Rate</label>
-                    <InputText
+                    <InputNumber
+                      :minFractionDigits="1"
+                      :maxFractionDigits="12"
                       id="rate"
-                      v-model.trim="transaction.rate"
+                      v-model="transaction.rate"
                       required="true"
                       autofocus
-                      :class="{ 'p-invalid': submitted && !transaction.rate }"
+                      :class="{
+                        'p-invalid':
+                          (submitted && v$.transaction.rate.$invalid) ||
+                          errors.rate,
+                      }"
                     />
-                    <small class="p-error" v-if="submitted && !transaction.rate"
-                      >rate is required.</small
+                    <small
+                      class="p-error"
+                      v-if="submitted && v$.transaction.rate.$invalid"
+                      >{{
+                        v$.transaction.rate.required.$message.replace(
+                          "Value",
+                          "Rate"
+                        )
+                      }}</small
+                    >
+                    <small class="p-error" v-else-if="errors.rate">
+                      {{ errors.rate }}</small
                     >
                   </div>
                 </div>
@@ -195,30 +328,72 @@
               <div class="p-grid">
                 <div class="p-field p-col-12 p-md-6">
                   <label for="latitude">latitude</label>
-                  <InputText
+                  <InputNumber
+                    :minFractionDigits="4"
+                    :maxFractionDigits="8"
+                    mode="decimal"
                     id="latitude"
-                    v-model.trim="transaction.latitude"
+                    v-model="transaction.latitude"
                     autofocus
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.latitude.$invalid) ||
+                        errors.latitude,
+                    }"
                   />
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.latitude.$invalid"
+                    >{{
+                      v$.transaction.latitude.required.$message.replace(
+                        "Value",
+                        "Latitude"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.latitude">
+                    {{ errors.latitude }}</small
+                  >
                 </div>
                 <div class="p-field p-col-12 p-md-6">
                   <label for="longitude">longitude</label>
-                  <InputText
+                  <InputNumber
+                    :minFractionDigits="4"
+                    :maxFractionDigits="8"
+                    mode="decimal"
                     id="longitude"
-                    v-model.trim="transaction.longitude"
+                    v-model="transaction.longitude"
                     autofocus
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.longitude.$invalid) ||
+                        errors.longitude,
+                    }"
                   />
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.longitude.$invalid"
+                    >{{
+                      v$.transaction.longitude.required.$message.replace(
+                        "Value",
+                        "Longitude"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.longitude">
+                    {{ errors.longitude }}</small
+                  >
                 </div>
                 <div class="p-field p-col-12 p-md-12">
                   <label for="comment">Map</label>
-<OnePointMap
-                        :latitude="transaction.latitude"
-                        :longitude="transaction.longitude"
-                        :centerLatitude="centerLatitude"
-                        :centerLongitude="centerLongitude"
-                        v-on:coordsChanged="onMapClick"
-                        ref="transacionMap"
-                      />
+                  <OnePointMap
+                    :latitude="transaction.latitude"
+                    :longitude="transaction.longitude"
+                    :centerLatitude="centerLatitude"
+                    :centerLongitude="centerLongitude"
+                    v-on:coordsChanged="onMapClick"
+                    ref="transacionMap"
+                  />
                 </div>
                 <div class="p-field p-col-12 p-md-12">
                   <label for="comment">Comment</label>
@@ -228,13 +403,31 @@
                     rows="5"
                     cols="30"
                     id="comment"
+                    :class="{
+                      'p-invalid':
+                        (submitted && v$.transaction.comment.$invalid) ||
+                        errors.comment,
+                    }"
                   />
+                  <small
+                    class="p-error"
+                    v-if="submitted && v$.transaction.comment.$invalid"
+                    >{{
+                      v$.transaction.comment.required.$message.replace(
+                        "Value",
+                        "comment"
+                      )
+                    }}</small
+                  >
+                  <small class="p-error" v-else-if="errors.comment">
+                    {{ errors.comment }}</small
+                  >
                 </div>
               </div>
             </div>
           </div>
         </TabPanel>
-        <TabPanel header="Files">  </TabPanel>
+        <TabPanel header="Files"> </TabPanel>
       </TabView>
 
       <template #footer>
@@ -248,7 +441,7 @@
           label="Save"
           icon="pi pi-check"
           class="p-button-text"
-          @click="saveTransaction"
+          @click="saveTransaction()"
         />
       </template>
     </Dialog>
@@ -258,16 +451,25 @@
 <script>
 import { authHeader } from "../../_helpers";
 import { handleResponse } from "../../_helpers";
-import { catchError } from "../../_helpers";
+import { catchErrors } from "../../_helpers";
 import axios from "axios";
 import { transactionsService } from "../../services";
 import OnePointMap from "../maps/OnePointMap";
-
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  requiredIf,
+  numeric,
+  maxLength,
+} from "@vuelidate/validators";
 
 export default {
   name: "EditTransactionDialog",
-    components: {
-    OnePointMap
+  components: {
+    OnePointMap,
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -278,22 +480,22 @@ export default {
       accounts: [],
       categories: [],
       isExist: false,
-       defaultItem: {
-      name: "",
-      accountId: 3,
-      categoryId: 0,
-      amount: 0,
-      date: new Date(Date.now()),
-      comment: "",
-      type: 1,
-      transferAccountId: null,
-      transferDate: new Date(Date.now()),
-      transferAmount: 0,
-      rate: 1,
-      tags: null,
-      latitude: null,
-      longitude: null
-    },
+      defaultItem: {
+        name: "",
+        accountId: null,
+        categoryId: null,
+        amount: 0,
+        date: new Date(Date.now()),
+        comment: "",
+        type: 1,
+        transferAccountId: null,
+        transferDate: new Date(Date.now()),
+        transferAmount: 0,
+        rate: 1,
+        tags: null,
+        latitude: null,
+        longitude: null,
+      },
       types: [
         {
           text: "Income",
@@ -308,6 +510,36 @@ export default {
           value: 2,
         },
       ],
+    };
+  },
+  validations() {
+    return {
+      transaction: {
+        amount: { required },
+        type: { required },
+        name: { required, maxLength: maxLength(100) },
+        categoryId: { required },
+        accountId: { required },
+        date: { required },
+        latitude: { numeric },
+        longitude: { numeric },
+        comment: { maxLength: maxLength(1000) },
+
+        transferAmount: {
+          required: requiredIf(() => this.transaction.type === 2),
+        },
+        transferDate: {
+          required: requiredIf(() => this.transaction.type === 2),
+        },
+        transferAccountId: {
+          required: requiredIf(() => this.transaction.type === 2),
+        },
+        rate: {
+          required: requiredIf(
+            () => this.transaction.type === 2 && this.isTransferInOtherCurrency
+          ),
+        },
+      },
     };
   },
   computed: {
@@ -352,6 +584,7 @@ export default {
       return dto;
     },
     mapEditToAPI(data) {
+      debugger;
       let dto = { ...data };
       dto.extendedType = data.type;
       if (dto.amount > 0) {
@@ -364,16 +597,23 @@ export default {
       return dto;
     },
 
-        onMapClick(value) {
+    onMapClick(value) {
       this.transaction.latitude = value.lat;
       this.transaction.longitude = value.lng;
     },
 
     openEmptyDialog() {
-      this.transaction = {... this.defaultItem };
+      this.transaction = { ...this.defaultItem };
       this.errors = [];
       this.transactionDialog = true;
-    //  this.hasImage = this.editedItem.fileGuid !== null && this.editedItem.fileGuid !== undefined;
+      if (this.accounts.length > 0) {
+        this.transaction.accountId = this.accounts[0].id;
+      }
+      if (this.categories.length > 0) {
+        this.transaction.categoryId = this.categories[0].id;
+      }
+
+      //  this.hasImage = this.editedItem.fileGuid !== null && this.editedItem.fileGuid !== undefined;
       setTimeout(() => {
         this.$refs.transacionMap.invalideSize();
       }, 100);
@@ -381,16 +621,16 @@ export default {
 
     openDialog(item) {
       const _self = this;
-       this.isExist = item !== null;
+      this.isExist = item !== null;
       transactionsService
         .get(item.externalId)
         .then((data) => {
           const dto = _self.mapAPItoEdit(data);
           _self.transaction = { ...dto }; //Object.assign({}, dto);
           _self.transactionDialog = true;
-           setTimeout(() => {
-        this.$refs.transacionMap.invalideSize();
-      }, 100);
+          setTimeout(() => {
+            this.$refs.transacionMap.invalideSize();
+          }, 100);
         })
         .catch((errors) => {
           _self.errors = errors;
@@ -398,6 +638,11 @@ export default {
     },
     saveTransaction() {
       this.submitted = true;
+
+      if (this.v$.transaction.$invalid) {
+        return;
+      }
+
       const _self = this;
       let dto = _self.mapEditToAPI(this.transaction);
       if (this.isExist) {
@@ -411,21 +656,23 @@ export default {
             this.hideDialog();
           })
           .catch((data) => {
+            debugger;
             _self.errors = data;
           });
       } else {
-        transactionsService
-          .add(dto)
-          .then(() => {
+        transactionsService.add(dto).then(
+          () => {
             this.$store.dispatch(
               "transactions/getAll",
               this.$store.state.transactionFilters
             );
             this.hideDialog();
-          })
-          .catch((errors) => {
+          },
+          (errors) => {
+            debugger;
             _self.errors = errors;
-          });
+          }
+        );
       }
     },
     getAccountIndex(accountId) {
@@ -438,6 +685,18 @@ export default {
       return -1;
     },
   },
+  watch: {
+    "transaction.transferAmount": function () {
+      if (
+        this.transaction.amount &&
+        this.transaction.transferAmount &&
+        this.transaction.transferAmount != 0
+      ) {
+        this.transaction.rate =
+          this.transaction.amount / this.transaction.transferAmount;
+      }
+    },
+  },
   mounted() {
     const _self = this;
     axios
@@ -446,7 +705,7 @@ export default {
       .then((data) => {
         _self.categories = data;
       })
-      .catch(catchError);
+      .catch(catchErrors);
 
     axios
       .get(`/accounts`, { params: {}, headers: authHeader() })
@@ -454,7 +713,7 @@ export default {
       .then((data) => {
         _self.accounts = data;
       })
-      .catch(catchError);
+      .catch(catchErrors);
   },
 };
 </script>

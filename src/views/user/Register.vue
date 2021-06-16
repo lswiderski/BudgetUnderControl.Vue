@@ -19,7 +19,7 @@
               type="email"
               v-model="email"
               :class="{
-                'p-invalid': (v$.email.$invalid && submitted) || errors.Email,
+                'p-invalid': (v$.email.$invalid && submitted) || errors.email,
               }"
             />
             <span v-if="v$.email.$silentErrors && submitted">
@@ -40,8 +40,8 @@
                 v$.email.required.$message.replace("Value", "E-mail")
               }}</small
             >
-            <small class="p-error" v-if="errors.Email">
-              {{ errors.Email }}</small
+            <small class="p-error" v-if="errors.email">
+              {{ errors.email }}</small
             >
           </div>
           <div class="p-field">
@@ -52,7 +52,7 @@
               v-model="username"
               :class="{
                 'p-invalid':
-                  (submitted && v$.username.$invalid) || errors.Username,
+                  (submitted && v$.username.$invalid) || errors.username,
               }"
             />
             <small
@@ -63,8 +63,8 @@
               }}</small
             >
 
-            <small class="p-error" v-else-if="errors.Username">
-              {{ errors.Username }}</small
+            <small class="p-error" v-else-if="errors.username">
+              {{ errors.username }}</small
             >
           </div>
           <div class="p-field">
@@ -75,7 +75,7 @@
               v-model="password"
               :class="{
                 'p-invalid':
-                  (submitted && v$.password.$invalid) || errors.Password,
+                  (submitted && v$.password.$invalid) || errors.password,
               }"
             />
             <small
@@ -85,8 +85,8 @@
                 v$.password.required.$message.replace("Value", "Password")
               }}</small
             >
-            <small class="p-error" v-else-if="errors.Password">
-              {{ errors.Password }}</small
+            <small class="p-error" v-else-if="errors.password">
+              {{ errors.password }}</small
             >
           </div>
           <div class="p-field-checkbox">
@@ -120,7 +120,6 @@
 import useVuelidate from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import { loginService } from "../../services";
-import { mapServerSideErrors } from "../../_helpers";
 
 export default {
   setup() {
@@ -184,9 +183,8 @@ export default {
             () => {
               dispatch("authentication/registerSuccess");
             },
-            (error) => {
-              _self.errors = mapServerSideErrors(error);
-               dispatch("authentication/loginFailure", error);
+            (errors) => {
+              _self.errors = errors
             }
           );
       }
