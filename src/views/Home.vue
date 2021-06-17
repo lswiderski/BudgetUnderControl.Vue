@@ -111,13 +111,14 @@ export default {
               year: "numeric",
             })
         );
-
-        this.dailyExpensesSeries = this.$store.state.reports.dashboardData.items.expensesChart.map(
-          (x) => ({
-            name: x.name,
-            data: x.data.map((y) => ({ x: y.xAxis, y: y.yAxis })),
-          })
-        );
+        if(this.$store.state.reports.dashboardData.items.expensesChart.length > 0) {
+            this.dailyExpensesSeries = this.$store.state.reports.dashboardData.items.expensesChart.map(
+                (x) => ({
+                  name: x.name,
+                  data: x.data.map((y) => ({ x: y.xAxis, y: y.yAxis })),
+                })
+              );
+        }
       }
     },
   },
