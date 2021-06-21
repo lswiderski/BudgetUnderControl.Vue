@@ -1,6 +1,7 @@
 <template>
     <div>
        <DataTable :value="accounts.items" :paginator="true" :rows="10"
+            v-model:selection="selectedAccount" selectionMode="single" @rowSelect="onRowSelect"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             :rowsPerPageOptions="[10,20,50]" responsiveLayout="scroll"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords}">
@@ -21,6 +22,11 @@
 <script>
 
 export default {
+    data(){
+        return {
+            selectedAccount: null,
+        }
+    },
     computed: {
          accounts () {
             return this.$store.state.accounts.accounts;
@@ -30,6 +36,9 @@ export default {
         this.$store.dispatch('accounts/getAll');
     },
     methods: {
+         onRowSelect(event) {
+             this.$router.push({ name: 'Account', params: { id: event.data.externalId } });
+        },
     }
 };
 </script>

@@ -21,6 +21,7 @@ const routes = [
   { path: '/terms', name: 'terms', component: () => import('../views/Terms.vue')},
   { path: '/categories',  name:'Categories', component: () => import( '../views/categories/Categories.vue')},
   { path: '/accounts',  name:'Accounts', component: () => import( '../views/accounts/Accounts.vue')},
+  { path: '/accounts/:id',  name:'Account', component: () => import( '../views/accounts/Account.vue'), props: { default: true, }},
   { path: '/tags',  name:'Tags', component: () => import( '../views/tags/Tags.vue')},
   { path: '/transactions',  name:'Transactions', component: () => import( '../views/transactions/Transactions.vue')},
   { path: '/report/movingsum',  name:'MovingSum', component: () => import( '../views/reports/MovingSum.vue')},
