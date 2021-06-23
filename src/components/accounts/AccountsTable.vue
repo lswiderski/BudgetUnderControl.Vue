@@ -38,9 +38,12 @@
         </div>
       </template>
 
-      <Column field="name" header="Name"></Column>
-      <Column field="amountWithCurrency" header="Balance"></Column>
-      <Column field="currency" header="Currency"></Column>
+      <Column field="name" header="Name" :sortable="true"></Column>
+      <Column field="amountWithCurrency" header="Balance" :sortable="true"></Column>
+      <Column field="currency" header="Currency" :sortable="true"></Column>
+        <Column field="order" header="Order" :sortable="true"></Column>
+       <Column field="isActive" header="Active" :sortable="true"></Column>
+      
       <template #paginatorLeft>
         <Button type="button" icon="pi pi-refresh" class="p-button-text" />
       </template>
