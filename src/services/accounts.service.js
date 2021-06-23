@@ -7,6 +7,7 @@ export const accountsService = {
     getAll,
     get,
     edit,
+    add,
     getAllAccountGroups
 };
 
@@ -27,12 +28,16 @@ function get(id) {
 }
 
 function edit(id, account) {
-
     return axios.put(`/accounts/${id}`, account, { params:{}, headers: authHeader()})
     .then(handleResponse)
     .catch(catchErrors);
 }
 
+function add(account) {
+    return axios.post(`/accounts`, account, { headers: authHeader()})
+    .then(handleResponse)
+    .catch(catchErrors);
+}
 
 
 function getAllAccountGroups() {

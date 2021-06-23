@@ -7,7 +7,7 @@
       :modal="true"
       class="p-fluid"
     >
-      <TabView>
+      <TabView class="p-mt-1">
         <TabPanel header="General">
           <div class="p-fluid p-formgrid p-grid">
             <div class="p-col-6">
