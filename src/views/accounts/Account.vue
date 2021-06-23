@@ -1,32 +1,59 @@
 <template>
-<div>
+  <div>
     <Card>
-        <template #title>
-        Account
-    </template>
+      <template #title> Account </template>
       <template #content>
-    <EditAccountForm :id= id />
-     </template>
+        <EditAccountForm :id="id" />
+      </template>
     </Card>
-</div>
+
+    <TransactionsFilters
+      v-on:filtersChanged="refreshGrid"
+      ref="transactionFilters"
+      class="p-mt-4"
+    />
+    <TransactionsTable />
+  </div>
 </template>
 
 <script>
-import EditAccountForm from '../../components/accounts/EditAccountForm';
+import EditAccountForm from "../../components/accounts/EditAccountForm";
+import TransactionsFilters from "../../components/transactions/TransactionsFilters";
+import TransactionsTable from "../../components/transactions/TransactionsTable";
+import { accountsService } from "../../services";
+
 export default {
-    components: {
-        EditAccountForm,
+  components: {
+    EditAccountForm,
+    TransactionsTable,
+    TransactionsFilters,
+  },
+  data() {
+    return {
+      account: {},
+      errors: [],
+    };
+  },
+  computed: {
+    id() {
+      return this.$route.params.id;
     },
-    data() {
-        return {
-        }
+  },
+  mounted() {
+    const _self = this;
+
+    accountsService.getDetails(this.id).then((dto) => {
+      _self.account = dto;
+      this.$refs.transactionFilters.accountsIds = [dto.id];
+    });
+  },
+  methods: {
+    refreshGrid: function () {
+      this.$store.dispatch(
+        "transactions/getAll",
+        this.$store.state.transactionFilters
+      );
     },
-    computed: {
-        id (){
-            return this.$route.params.id;
-        }
-    },
-    mounted() {
-    }
-}
+  },
+};
 </script>

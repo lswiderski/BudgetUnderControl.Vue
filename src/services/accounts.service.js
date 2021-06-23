@@ -6,6 +6,7 @@ import axios from 'axios';
 export const accountsService = {
     getAll,
     get,
+    getDetails,
     edit,
     add,
     getAllAccountGroups
@@ -20,9 +21,14 @@ function getAll() {
     }).catch(catchErrors);
 }
 
-
 function get(id) {
     return axios.get(`/accounts/${id}`, { params:{}, headers: authHeader()})
+    .then(handleResponse)
+    .catch(catchErrors);
+}
+
+function getDetails(id) {
+    return axios.get(`/accounts/${id}/details`, { params:{}, headers: authHeader()})
     .then(handleResponse)
     .catch(catchErrors);
 }
