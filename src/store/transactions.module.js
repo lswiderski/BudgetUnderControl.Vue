@@ -30,7 +30,7 @@ export const transactions = {
             state.transactions = { loading: true };
         },
         getAllSuccess(state, data) {
-            state.transactions = { items: data};
+            state.transactions = { items: data.transactions, data};
         },
         getAllFailure(state, error) {
             state.transactions = { error };

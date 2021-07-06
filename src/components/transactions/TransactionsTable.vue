@@ -17,7 +17,17 @@
           <div
             class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between"
           >
-            <h5 class="p-mb-2 p-m-md-0 p-as-md-center">Transactions</h5>
+            <h5 class="p-mb-2 p-mr-2 p-as-md-center">Transactions</h5>
+            <div class="income-value p-mb-2 p-mr-2 p-as-md-center p-text-center">
+              <div>income: </div>
+              <div> {{transactions?.data?.incomeInMainCurrency?.value}} {{transactions?.data?.incomeInMainCurrency?.currency}}</div>
+              <div><Chip v-for="(value, i) in transactions?.data?.incomesInOriginalCurrencies" :key="i">{{value.value}} {{value.currency}}</Chip></div>
+            </div>
+            <div class="expense-value p-mb-2 p-mr-2 p-as-md-center p-text-center">
+               <div>expense:</div>
+              <div>{{transactions?.data?.expenseInMainCurrency?.value}} {{transactions?.data?.expenseInMainCurrency?.currency}}</div>
+             <div><Chip v-for="(value, i) in transactions?.data?.expensesInOriginalCurrencies" :key="i">{{value.value}} {{value.currency}}</Chip></div>
+            </div>
             <span class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
@@ -165,3 +175,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+.income-value {
+color: var(--green-500);
+max-width: 400px;
+}
+
+.expense-value {
+color: var(--pink-500);
+max-width: 400px;
+}
+</style>
