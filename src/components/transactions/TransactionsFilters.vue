@@ -14,6 +14,7 @@
               :yearNavigator="true"
               yearRange="2000:2030"
               :monthNavigator="true"
+              dateFormat="yy-mm-dd"
             />
           </div>
         </div>
@@ -27,6 +28,7 @@
               :yearNavigator="true"
               yearRange="2000:2030"
               :monthNavigator="true"
+               dateFormat="yy-mm-dd"
             />
           </div>
         </div>
@@ -147,11 +149,12 @@ export default {
       var date = new Date();
       var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
       var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
+      
       this.$store.dispatch(
         "transactionFilters/setFrom",
         firstDay.toISOString().substr(0, 10)
       );
+     
       this.$store.dispatch(
         "transactionFilters/setTo",
         lastDay.toISOString().substr(0, 10)
