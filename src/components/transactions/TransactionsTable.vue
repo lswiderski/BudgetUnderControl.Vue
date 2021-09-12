@@ -15,36 +15,75 @@
       >
         <template #header>
           <div
-            class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between"
+            class="
+              table-header
+              p-d-flex p-flex-column p-flex-md-row p-jc-md-between
+            "
           >
             <h5 class="p-mb-2 p-mr-2 p-as-md-center">Transactions</h5>
-            <div class="income-value p-mb-2 p-mr-2 p-as-md-center p-text-center">
-              <div>income: </div>
-              <div> {{transactions?.data?.incomeInMainCurrency?.value}} {{transactions?.data?.incomeInMainCurrency?.currency}}</div>
-              <div><Chip v-for="(value, i) in transactions?.data?.incomesInOriginalCurrencies" :key="i">{{value.value}} {{value.currency}}</Chip></div>
+            <div class=" p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+            <div
+              class="income-value p-mb-2 p-mr-2 p-as-md-center p-text-center"
+            >
+              <div>income:</div>
+              <div>
+                {{ transactions?.data?.incomeInMainCurrency?.value }}
+                {{ transactions?.data?.incomeInMainCurrency?.currency }}
+              </div>
+              <div>
+                <Chip
+                  v-for="(value, i) in transactions?.data
+                    ?.incomesInOriginalCurrencies"
+                  :key="i"
+                  >{{ value.value }} {{ value.currency }}</Chip
+                >
+              </div>
             </div>
-            <div class="expense-value p-mb-2 p-mr-2 p-as-md-center p-text-center">
-               <div>expense:</div>
-              <div>{{transactions?.data?.expenseInMainCurrency?.value}} {{transactions?.data?.expenseInMainCurrency?.currency}}</div>
-             <div><Chip v-for="(value, i) in transactions?.data?.expensesInOriginalCurrencies" :key="i">{{value.value}} {{value.currency}}</Chip></div>
+            <div
+              class="expense-value p-mb-2 p-mr-2 p-as-md-center p-text-center"
+            >
+              <div>expense:</div>
+              <div>
+                {{ transactions?.data?.expenseInMainCurrency?.value }}
+                {{ transactions?.data?.expenseInMainCurrency?.currency }}
+              </div>
+              <div>
+                <Chip
+                  v-for="(value, i) in transactions?.data
+                    ?.expensesInOriginalCurrencies"
+                  :key="i"
+                  >{{ value.value }} {{ value.currency }}</Chip
+                >
+              </div>
             </div>
-            <div>
-              <SplitButton label="Export" icon="pi pi-download" :model="contextButtonItems"></SplitButton>
             </div>
-            <span class="p-input-icon-left">
-              <i class="pi pi-search" />
-              <InputText
-                v-model="filters['global'].value"
-                placeholder="Search..."
-                class="p-mr-2"
-              />
-              <Button
-                label="New"
-                icon="pi pi-plus"
-                class="p-button-success p-mr-2"
-                @click="openNew"
-              />
-            </span>
+            <div class="p-mb-2 p-mr-2 p-as-md-right p-text-center p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
+              <div class="p-mb-2 p-mr-2">
+                <SplitButton
+                  label="Export"
+                  icon="pi pi-download"
+                  :model="contextButtonItems"
+                ></SplitButton>
+              </div>
+              <div class="p-mb-2 p-mr-2">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search" />
+                  <InputText
+                    v-model="filters['global'].value"
+                    placeholder="Search..."
+                    class="p-mr-2"
+                  />
+                </span>
+              </div>
+              <div class="p-mb-2 p-mr-2">
+                <Button
+                  label="New"
+                  icon="pi pi-plus"
+                  class="p-button-success p-mr-2"
+                  @click="openNew"
+                />
+              </div>
+            </div>
           </div>
         </template>
         <Column :rowReorder="true" headerStyle="width: 3rem" />
@@ -95,7 +134,7 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 import EditTransactionDialog from "./EditTransactionDialog";
-import { transactionsService, exportService  } from "../../services";
+import { transactionsService, exportService } from "../../services";
 import moment from "moment";
 export default {
   components: {
@@ -105,21 +144,25 @@ export default {
     return {
       submitted: false,
       filters: {},
-      contextButtonItems:[
+      contextButtonItems: [
         {
-					label: 'CSV',
-					icon: 'pi pi-file-o',
-					command: () => {
-						exportService.getTransactionsCSV(this.$store.state.transactionFilters);
-					}
-				},
-				{
-					label: 'Excel',
-					icon: 'pi pi-file-excel',
+          label: "CSV",
+          icon: "pi pi-file-o",
           command: () => {
-						exportService.getTransactionsExcel(this.$store.state.transactionFilters);
-					}
-				}
+            exportService.getTransactionsCSV(
+              this.$store.state.transactionFilters
+            );
+          },
+        },
+        {
+          label: "Excel",
+          icon: "pi pi-file-excel",
+          command: () => {
+            exportService.getTransactionsExcel(
+              this.$store.state.transactionFilters
+            );
+          },
+        },
       ],
     };
   },
@@ -159,8 +202,7 @@ export default {
             );
           });
         },
-        reject: () => {
-        },
+        reject: () => {},
       });
     },
     findIndexById(id) {
@@ -196,12 +238,12 @@ export default {
 </script>
 <style scoped>
 .income-value {
-color: var(--green-500);
-max-width: 400px;
+  color: var(--green-500);
+  max-width: 400px;
 }
 
 .expense-value {
-color: var(--pink-500);
-max-width: 400px;
+  color: var(--pink-500);
+  max-width: 400px;
 }
 </style>
