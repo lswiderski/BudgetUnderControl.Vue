@@ -28,6 +28,9 @@
               <div>{{transactions?.data?.expenseInMainCurrency?.value}} {{transactions?.data?.expenseInMainCurrency?.currency}}</div>
              <div><Chip v-for="(value, i) in transactions?.data?.expensesInOriginalCurrencies" :key="i">{{value.value}} {{value.currency}}</Chip></div>
             </div>
+            <div>
+              <SplitButton label="Export" icon="pi pi-download" :model="contextButtonItems"></SplitButton>
+            </div>
             <span class="p-input-icon-left">
               <i class="pi pi-search" />
               <InputText
@@ -92,7 +95,7 @@
 <script>
 import { FilterMatchMode } from "primevue/api";
 import EditTransactionDialog from "./EditTransactionDialog";
-import { transactionsService } from "../../services";
+import { transactionsService, exportService  } from "../../services";
 import moment from "moment";
 export default {
   components: {
@@ -102,6 +105,22 @@ export default {
     return {
       submitted: false,
       filters: {},
+      contextButtonItems:[
+        {
+					label: 'CSV',
+					icon: 'pi pi-file-o',
+					command: () => {
+						exportService.getTransactionsCSV(this.$store.state.transactionFilters);
+					}
+				},
+				{
+					label: 'Excel',
+					icon: 'pi pi-file-excel',
+          command: () => {
+						exportService.getTransactionsExcel(this.$store.state.transactionFilters);
+					}
+				}
+      ],
     };
   },
   computed: {
