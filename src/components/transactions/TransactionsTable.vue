@@ -149,8 +149,9 @@ export default {
           label: "CSV",
           icon: "pi pi-file-o",
           command: () => {
-            exportService.getTransactionsCSV(
-              this.$store.state.transactionFilters
+            exportService.getTransactions(
+              this.$store.state.transactionFilters,
+              'CSV'
             );
           },
         },
@@ -158,8 +159,9 @@ export default {
           label: "Excel",
           icon: "pi pi-file-excel",
           command: () => {
-            exportService.getTransactionsExcel(
-              this.$store.state.transactionFilters
+            exportService.getTransactions(
+              this.$store.state.transactionFilters,
+              'Excel'
             );
           },
         },
