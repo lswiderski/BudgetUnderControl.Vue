@@ -9,7 +9,6 @@ export const accountsService = {
     getDetails,
     edit,
     add,
-    getAllAccountGroups
 };
 
 function getAll() {
@@ -43,13 +42,4 @@ function add(account) {
     return axios.post(`/accounts`, account, { headers: authHeader()})
     .then(handleResponse)
     .catch(catchErrors);
-}
-
-
-function getAllAccountGroups() {
-    return axios.get(`/accountgroups`, { params:{}, headers: authHeader()})
-    .then(handleResponse)
-    .then(data => {
-        return data;
-    }).catch(catchErrors);
 }

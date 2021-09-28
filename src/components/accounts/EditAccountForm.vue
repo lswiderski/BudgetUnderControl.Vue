@@ -109,34 +109,6 @@
         </div>
         <div class="p-grid">
           <div class="p-field p-col-12 p-md-3">
-            <label for="group">Group</label>
-            <Dropdown
-              id="group"
-              v-model="account.accountGroupId"
-              :options="accountGroups"
-              optionLabel="name"
-              optionValue="id"
-              :class="{
-                'p-invalid':
-                  (submitted && v$.account.accountGroupId.$invalid) ||
-                  errors.accountgroupid,
-              }"
-            />
-            <small
-              class="p-error"
-              v-if="submitted && v$.account.accountGroupId.$invalid"
-              >{{
-                v$.account.accountGroupId.required.$message.replace(
-                  "Value",
-                  "Group"
-                )
-              }}</small
-            >
-            <small class="p-error" v-else-if="errors.accountgroupid">
-              {{ errors.accountgroupid }}</small
-            >
-          </div>
-          <div class="p-field p-col-12 p-md-3">
             <label for="type">Type</label>
             <Dropdown
               id="type"
@@ -297,7 +269,6 @@ export default {
       account: {
         name: { required },
         amount: { required, decimal },
-        accountGroupId: { required },
         currencyId: { required },
         type: { required },
         isActive: { required },
@@ -314,7 +285,6 @@ export default {
   data() {
     return {
       account: {},
-      accountGroups: [],
       currencies: [],
       accountTypes: [
         { name: "Account", id: 0 },
@@ -326,7 +296,6 @@ export default {
       defaultItem: {
         currencyId: 1,
         currency: null,
-        accountGroupId: null,
         name: "",
         amount: 0,
         isIncludedInTotal: true,
@@ -364,10 +333,6 @@ export default {
 
     currenciesService.getAll().then((array) => {
       _self.currencies = array;
-    });
-
-    accountsService.getAllAccountGroups().then((array) => {
-      _self.accountGroups = array;
     });
   },
   methods: {
